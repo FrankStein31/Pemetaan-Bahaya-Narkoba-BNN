@@ -5,7 +5,7 @@ session_start();
 $servername = "localhost";
 $username = "root"; // Ganti dengan username database
 $password = ""; // Ganti dengan password database
-$dbname = "clinic"; // Ganti dengan nama database
+$dbname = "pemetaannarkoba"; // Ganti dengan nama database
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -21,7 +21,7 @@ $subject = $_POST['subject'];
 $message = $_POST['message'];
 
 // 3. Simpan ke Database
-$sql = "INSERT INTO messages (nama, email, subject, message, status, admin_feedback) 
+$sql = "INSERT INTO messages (nama, email, subject, message, status, admin_feedback)
         VALUES (?, ?, ?, ?, 'pending', '-')";
 
 // Gunakan prepared statement untuk menghindari SQL injection
@@ -42,8 +42,9 @@ $conn->close();
 // Redirect ke route '/' dengan URL yang benar
 // Jika di localhost port 8000
 // Redirect ke URL absolut
-$base_url = "http://" . $_SERVER['HTTP_HOST'];
-header("Location: $base_url/");
-exit();
-    
+if ($stmt->execute()) {
+    header("Location: http://127.0.0.1:8080/landing?status=success");
+    exit(); // Pastikan exit() dipanggil setelah header()
+}
+
 ?>

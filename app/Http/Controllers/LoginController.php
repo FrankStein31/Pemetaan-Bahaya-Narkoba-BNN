@@ -26,11 +26,17 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = auth()->user();
 
-            if (auth()->user()->is_admin) {
+            if ($user->is_admin == 1) {
                 return redirect()->intended('/admin/dashboard');
-            } else {
+            } elseif ($user->is_admin == 2) {
                 return redirect()->intended('/masyarakat/dashboard');
+            } elseif ($user->is_admin == 0) {
+                return redirect()->intended('/masyarakat/dashboard');
+            } else {
+                Auth::logout();
+                return back()->with('loginError', 'Hak akses tidak dikenali.');
             }
         }
 

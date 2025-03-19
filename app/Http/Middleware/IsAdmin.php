@@ -19,7 +19,7 @@ class IsAdmin
             return redirect('/login');
         }
 
-        if (!auth()->user()->is_admin) {
+        if (!auth()->user()->is_admin === 1) {
             abort(403);
         }
         return $next($request);

@@ -53,11 +53,13 @@ class AdminDashboardController extends Controller
             'patientsMonthly' => Patient::where('queue_number_id', null)->whereBetween('created_at', [$currentMonth, $endOfMonth])->count(),
             'totalPatient' => Patient::where('queue_number_id', null)->count(),
             'totalwarga' => Warga::count(),
+            'totalwarganegatif' => Warga::where('status_narkoba', 'Negatif Narkoba')->count(), // Hitung warga dengan status negatif narkoba
             'totaladuan' => Patient::where('queue_number_id')->count(),
             'numberQueueNow' => Patient::with(['queueNumber'])->orderby('queue_number_id', 'asc')->whereNotNull('queue_number_id')->first(),
             'sosialisasi' => Sosialisasi::where('status', 'aktif')->latest()->get(),
+            'totalpengaduan' => Pengaduan::count(),
             'chart' => $chart->build()
         ]);
     }
-    
+
 }

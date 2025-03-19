@@ -15456,8 +15456,14 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 }
 
 .menu-header {
-  opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    padding: 10px 5px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    border: none !important; /* Pastikan border dihapus */
+    background: none !important; /* Hilangkan efek background */
 }
 
 .menu-icon {
@@ -15651,6 +15657,12 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   text-align: center;
   top: 1.1875rem;
 }
+.menu-header::before,
+.menu-block::before {
+    content: none !important;
+    display: none !important;
+}
+
 .menu-collapsed:not(:hover) .menu-block::before {
   bottom: 0.75rem;
 }

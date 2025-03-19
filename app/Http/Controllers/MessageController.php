@@ -14,7 +14,15 @@ class MessageController extends Controller
 {
     return view('admin.messages.index', [
         'app' => Application::all(),
-        'title' => 'Data Pesan',
+        'title' => 'Data Kritik & Saran',
+        'messages' => Message::latest()->paginate(10), // Pagination agar tidak terlalu berat
+    ]);
+}
+public function indextambah()
+{
+    return view('admin.messages.create', [
+        'app' => Application::all(),
+        'title' => 'Kritik & Saran',
         'messages' => Message::latest()->paginate(10), // Pagination agar tidak terlalu berat
     ]);
 }
@@ -39,7 +47,7 @@ class MessageController extends Controller
             'admin_feedback' => '-',
         ]);
 
-        return redirect()->back()->with('success', 'Pesan berhasil dikirim!');
+        return redirect()->back()->with('tambahkritik', 'Pesan berhasil dikirim!');
     }
 
     // Menampilkan halaman edit status

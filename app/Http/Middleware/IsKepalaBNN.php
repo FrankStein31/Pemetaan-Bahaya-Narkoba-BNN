@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsUser
+class IsKepalaBNN
 {
     /**
      * Handle an incoming request.
@@ -19,9 +19,12 @@ class IsUser
             return redirect('/login');
         }
 
-        if (!auth()->user()->is_admin === 0) {
+        if (!auth()->user()->is_admin === 2) {
+            
             abort(403);
         }
+
         return $next($request);
     }
+
 }

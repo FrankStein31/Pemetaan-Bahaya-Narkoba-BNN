@@ -22,7 +22,18 @@ class AdminWargaController extends Controller
             'desas' => Desa::all(), // Ambil semua desa
         ]);
     }
-
+public function indexpositif(){
+    return view('admin.wargas.positif', [
+        'app'=> Application::all(),
+        'title'=> 'Data Warga Positif',
+        'wargas' => Warga::with('kecamatan', 'desa')
+    ->where('status_narkoba', 'Positif Narkoba')
+    ->latest()
+    ->paginate(8),
+        'kecamatans'=> Kecamatan::all(),
+        'desas'=> Desa::all(),
+        ] );
+}
     // Menampilkan form tambah warga
     public function create()
     {
@@ -110,7 +121,7 @@ class AdminWargaController extends Controller
     public function editWarga(Request $request)
 {
     $idWarga = decrypt($request->code);
-    
+
     try {
         $validatedData = $request->validate([
             'nik' => 'required|digits:16|unique:wargas,nik,'.$idWarga,
@@ -121,7 +132,7 @@ class AdminWargaController extends Controller
             'kecamatan' => 'required|string',  // Sesuaikan dengan nama di form
             'status_narkoba' => 'required|string',
         ]);
-        
+
         // Konversi nama field agar sesuai dengan database jika diperlukan
         $dataToUpdate = [
             'nik' => $validatedData['nik'],
@@ -132,10 +143,10 @@ class AdminWargaController extends Controller
             'kecamatan_id' => $validatedData['kecamatan'], // Konversi ke nama kolom di database
             'status_narkoba' => $validatedData['status_narkoba'],
         ];
-        
+
         Warga::where('id', $idWarga)->update($dataToUpdate);
         return back()->with('editWargaSuccess', 'Data warga berhasil diupdate!');
-        
+
     } catch (ValidationException $e) {
         return back()->withErrors($e->validator)
                      ->withInput()
@@ -148,6 +159,6 @@ class AdminWargaController extends Controller
     return response()->json($desas);
 }
 
-    
+
 
 }

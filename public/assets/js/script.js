@@ -149,6 +149,14 @@ if (deletePengaduan) {
 setMessage(deletePengaduan, "success");
 }
 
+const tambahkritik = $(".flash-message").data(
+    "flash-message-kritik");
+    console.log("Flash Message dari JavaScript:", tambahkritik);
+
+    if (tambahkritik) {
+    setMessage(tambahkritik, "success");
+    }
+
 // const tambahPengaduan = $(".flash-message").data("flash-message-pengaduan");
 // if (tambahPengaduan) {
 // setMessage(tambahPengaduan, "success");

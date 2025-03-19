@@ -18,7 +18,7 @@
         </li>
         <li class="nav-item">
           <button type="button" class="nav-link @if($errors->has('passwordLama') || $errors->has('passwordBaru') || session()->has('passwordLamaSalah')) active @endif" role="tab" data-bs-toggle="tab" data-bs-target="#navs-akun" aria-controls="navs-akun"><i class="tf-icons bx bxs-lock-alt fs-6 me-1" style="margin-bottom: 3px;"></i>&nbsp;Akun</button>
-        </li>        
+        </li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade @unless ($errors->has('passwordLama') || $errors->has('passwordBaru') || session()->has('passwordLamaSalah') || $errors->has('logo') || $errors->has('name_app') || $errors->has('description_app') || session()->has('updateAppBerhasil')) show active @endunless" id="navs-profil" role="tabpanel">
@@ -34,7 +34,7 @@
                 {{-- <img src="{{ asset('storage/profil-images/' . auth()->user()->image) }}" alt="profile" /> --}}
                 {{-- <img src="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/1.jpeg') }} @endif"/> --}}
                 {{-- <img src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : asset('assets/img/profil-images-default/1.jpeg') }}"/> --}}
-                <img src="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/1.jpeg') }} @endif" alt="profile" class="d-block rounded cursor-pointer fotoProfile" height="100" width="100" id="uploadedPhotoProfil" data-url-img="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/1.jpeg') }} @endif" />
+                <img src="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/man.jpeg') }} @endif" alt="profile" class="d-block rounded cursor-pointer fotoProfile" height="100" width="100" id="uploadedPhotoProfil" data-url-img="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/man.jpeg') }} @endif" />
                 <div class="button-wrapper">
                   <label for="upload" class="btn btn-outline-primary me-2 mb-4" tabindex="0">
                     <span><i class="bx bx-image-alt fs-6" style="margin-bottom: 2px;"></i>&nbsp;Upload</span>
@@ -141,7 +141,7 @@
           </form>
         </div>
 
-        
+
       </div>
     </div>
   </div>

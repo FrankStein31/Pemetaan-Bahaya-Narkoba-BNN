@@ -25,7 +25,7 @@
                     <div class="justify-content-start">
                     </div>
                     <div class="justify-content-end">
-                        
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -39,9 +39,11 @@
                                         <th class="text-white">Email</th>
                                         <th class="text-white">Subjek</th>
                                         <th class="text-white">Pesan</th>
-                                        <th class="text-white">Status</th>
+                                        {{-- <th class="text-white">Status</th>
                                         <th class="text-white">Feedback</th>
+                                        @if(auth()->check() && auth()->user()->is_admin == 1)
                                         <th class="text-white text-center">Aksi</th>
+                                    @endif --}}
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -52,9 +54,10 @@
                                         <td>{{ $message->email }}</td>
                                         <td>{{ $message->subject }}</td>
                                         <td>{{ $message->message }}</td>
-                                        <td>{{ $message->status }}</td>
-                                        <td>{{ $message->admin_feedback }}</td>
-                                        <td>
+                                        {{-- <td>{{ $message->status }}</td>
+                                        <td>{{ $message->admin_feedback }}</td> --}}
+                                        @if(auth()->check() && auth()->user()->is_admin == 1)
+                                        {{-- <td>
                                             <button type="button"
                                                     class="btn btn-icon btn-primary btn-sm buttonEditWarga"
                                                     data-bs-toggle="tooltip" data-popup="tooltip-custom"
@@ -69,7 +72,8 @@
                                                     >
                                                     <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
                                                 </button>
-                                        </td>
+                                        </td> --}}
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>

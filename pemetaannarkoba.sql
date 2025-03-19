@@ -692,13 +692,14 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   UNIQUE KEY `users_username_unique` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`name`,`email`,`username`,`is_admin`,`gender`,`image`,`alamat`,`tanggal_lahir`,`password`,`created_at`,`updated_at`) values 
-(1,'admin','admin@gmail.com','admin',1,'Male','man.jpeg','Medan','2025-03-01','$2y$12$euKb49uAxlR/fTzX.BnEIOvs43APlj5jNpS6j4Ph8n9sLJm8vbsmG','2025-03-11 15:10:20','2025-03-11 15:10:20'),
-(2,'user','user@gmail.com','user',0,'Male','man.jpeg','alamat','2025-02-28','$2y$12$w4YuA81kbqoVv60xP3wT5.Wa52GJ03Dsin137yiFcB1MAz8HaVTny','2025-03-11 15:24:27','2025-03-11 15:24:27');
+(1,'admin','admin@gmail.com','admin',1,'Perempuan','profil-images/Ankty23nNTP9IMjVPyKHgA6htY4a1d4XXWlAgegb.jpg','Medan kota','2025-03-01','$2y$12$euKb49uAxlR/fTzX.BnEIOvs43APlj5jNpS6j4Ph8n9sLJm8vbsmG','2025-03-11 15:10:20','2025-03-19 10:48:38'),
+(2,'user user','user@gmail.com','user',0,'Laki-Laki','profil-images/xQPfRkiM5cKfDySvOjRsMXQsXJxxPLQhzAo7xxYW.jpg','alamat sini','2025-02-28','$2y$12$w4YuA81kbqoVv60xP3wT5.Wa52GJ03Dsin137yiFcB1MAz8HaVTny','2025-03-11 15:24:27','2025-03-19 10:49:15'),
+(3,'Kepala BNN','bnn@gmail.com','bnn',2,'Male','profil-images/man.jpeg','kediri','2000-01-01','$2y$12$RDDqkTrjwBlmdUrvR.Nsr.yRzNWIqLqnFKTN/jz25XR35vet.0H8G','2025-03-19 10:47:10','2025-03-19 10:47:10');
 
 /*Table structure for table `wargas` */
 
@@ -727,7 +728,7 @@ insert  into `wargas`(`id`,`nik`,`nama`,`alamat`,`jk`,`status_narkoba`,`desa_id`
 (4,'1234567890123459','Popo','Jl. Manggis 29','Perempuan','Negatif Narkoba','173','14','2025-03-07 00:16:53','2025-03-07 00:16:53'),
 (5,'1234567890123458','haha','Kediri','Laki-Laki','Negatif Narkoba','19','3','2025-03-07 01:03:16','2025-03-07 01:03:16'),
 (6,'1234567890123457','hehe','Kediri','Laki-Laki','Negatif Narkoba','64','6','2025-03-07 01:10:55','2025-03-07 01:10:55'),
-(14,'1234567890176523','pp','mk','Perempuan','Belum Diketahui','11','2','2025-03-07 02:14:52','2025-03-07 02:14:52'),
+(14,'1234567890176523','pp','mk','Perempuan','Positif Narkoba','11','2','2025-03-07 02:14:52','2025-03-19 10:44:34'),
 (15,'1234567890735261','fghj','jj','Perempuan','Belum Diketahui','20','3','2025-03-08 17:33:35','2025-03-08 17:33:35'),
 (16,'1234567890435267','kj','slk','Laki-Laki','Belum Diketahui','31','4','2025-03-08 17:39:17','2025-03-08 17:39:17'),
 (17,'1234567890637283','adsf','hgsksl','Laki-Laki','Belum Diketahui','31','4','2025-03-08 19:22:52','2025-03-08 19:22:52'),

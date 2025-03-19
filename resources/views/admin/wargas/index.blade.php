@@ -38,7 +38,7 @@
                             <div class="input-group">
                                 <input type="search" class="form-control" name="q" id="search"
                                     style="border: 1px solid #d9dee3;" value="{{ request('q') }}"
-                                    placeholder="Cari data pasien..." autocomplete="off" />
+                                    placeholder="Cari data warga..." autocomplete="off" />
                             </div>
                         </form>
                         <!-- /Search -->

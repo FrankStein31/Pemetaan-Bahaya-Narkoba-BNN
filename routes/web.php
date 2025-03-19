@@ -30,6 +30,10 @@ Route::get('/', [LandingController::class, 'index']);
 //     return redirect('/admin/dashboard');
 // });
 
+Route::get('/landing', function () {
+    return view('landing'); // Tampilkan view contact.blade.php
+});
+
 // login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -71,6 +75,7 @@ Route::get('/admin/pasien/search', [AdminDataPasienController::class, 'search'])
 
 //data warga
 Route::get('/admin/warga', [AdminWargaController::class, 'index'])->middleware('admin');
+Route::get('/warga-positif', [AdminWargaController::class, 'indexpositif'])->middleware('admin');
 Route::post('/admin/warga', [AdminWargaController::class, 'store'])->middleware('admin');
 Route::get('/get-desa/{kecamatan_id}', [AdminWargaController::class, 'getDesaByKecamatan']);
 Route::post('/admin/warga/edit', [AdminWargaController::class, 'editWarga'])->middleware('admin');
@@ -119,6 +124,7 @@ Route::get('/admin/pengaduan', [PengaduanController::class, 'index'])->name('pen
 Route::get('/masyarakat/pengaduan', [PengaduanController::class, 'create'])->name('pengaduan.create');
 Route::post('/masyarakat/pengaduan/tambah', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::post('/masyarakat/pengaduan', [PengaduanController::class, 'deletePengaduan'])->name('pengaduan.delete');
+Route::get('/masyarakat/tambah-pengaduan', [PengaduanController::class,'indextambah'])->name('pengaduan.tambah');
 // Route::delete('/pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
 
 // Sosialisai
@@ -131,6 +137,7 @@ Route::post('/admin/sosialisasi/delete', [SosialisasiController::class, 'deleteS
 
 
 Route::get('/admin/messages', [MessageController::class, 'index'])->name('messages.index');
+Route::get('/tambah', [MessageController::class, 'indextambah'])->name('messages.indextambah');
 Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 // Route::get('/admin/messages/{id}/edit', [MessageController::class, 'edit'])->name('messages.edit');
 // Route::put('/admin/messages/{id}', [MessageController::class, 'update'])->name('messages.update');

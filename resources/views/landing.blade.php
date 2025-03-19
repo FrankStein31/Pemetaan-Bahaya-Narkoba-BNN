@@ -119,7 +119,7 @@
         </nav>
     </div>
 </header><!-- End Header
-  
+
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container">
@@ -140,10 +140,10 @@
                         <div class="content">
                           <h3>Apa Itu BNN?</h3>
                                 <p>
-                                    Badan Narkotika Nasional (disingkat BNN) adalah sebuah Lembaga Pemerintah 
-                                    Non Kementerian (LPNK) Indonesia yang mempunyai tugas melaksanakan tugas pemerintahan 
-                                    di bidang pencegahan, pemberantasan penyalahgunaan dan peredaran gelap narkotika, psikotropika, 
-                                    prekursor dan bahan adiktif lainnya kecuali bahan adiktif untuk tembakau dan alkohol.                                
+                                    Badan Narkotika Nasional (disingkat BNN) adalah sebuah Lembaga Pemerintah
+                                    Non Kementerian (LPNK) Indonesia yang mempunyai tugas melaksanakan tugas pemerintahan
+                                    di bidang pencegahan, pemberantasan penyalahgunaan dan peredaran gelap narkotika, psikotropika,
+                                    prekursor dan bahan adiktif lainnya kecuali bahan adiktif untuk tembakau dan alkohol.
                                 <div class="text-center">
                                     <a href="#" class="more-btn">Pelajari Lebih Lanjut<i
                                             class="bx bx-chevron-right"></i></a>
@@ -157,8 +157,8 @@
                                     <div class="icon-box mt-4 mt-xl-0">
                                         <i class="bx bx-receipt"></i>
                                         <h4>Suara Masyarakat</h4>
-                                        <p>Suara Masyarakat adalah platform bagi masyarakat untuk menyampaikan pengaduan, informasi, 
-                                            dan konsultasi terkait penyalahgunaan narkoba. Layanan ini bertujuan untuk mencegah peredaran narkotika 
+                                        <p>Suara Masyarakat adalah platform bagi masyarakat untuk menyampaikan pengaduan, informasi,
+                                            dan konsultasi terkait penyalahgunaan narkoba. Layanan ini bertujuan untuk mencegah peredaran narkotika
                                             serta memberikan edukasi dan pendampingan bagi mereka yang terdampak.</p>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@
             </div>
         </section><!-- End Why Us Section -->
 
-        
+
 
         <section id="contact" class="contact">
             <div class="container">
@@ -203,7 +203,7 @@
             <div>
                 <iframe style="border:0; width: 100%; height: 350px;"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.0943511395026!2d112.1227327!3d-7.7798202000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e785be6e7835f55%3A0xe0114e02054bc301!2sKantor%20BNN%20Kab.%20Kediri!5e0!3m2!1sid!2sid!4v1739964009988!5m2!1sid!2sid"
-                    frameborder="0" allowfullscreen loading="lazy" 
+                    frameborder="0" allowfullscreen loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade" ></iframe>
             </div>
 
@@ -236,9 +236,15 @@
                     </div>
 
                     <div class="col-lg-8 mt-5 mt-lg-0">
+                        <!-- Alert Sukses -->
+    <?php if(isset($_GET['status']) && $_GET['status'] == 'success'): ?>
+    <div class="alert alert-success mb-4">
+        Pesan terkirim! 🎉
+    </div>
+<?php endif; ?>
 
                         <form action="/send-email.php" method="post" role="form" class="php-email-form">
-                            
+
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <input type="text" name="nama" class="form-control" id="nama"

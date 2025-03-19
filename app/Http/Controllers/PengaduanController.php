@@ -20,7 +20,17 @@ class PengaduanController extends Controller
         'app' => Application::all(),
         'pengaduans' => Pengaduan::paginate(10),
         'title' => 'Laporan Pengaduan',
-        
+
+    ]);
+}
+
+public function indextambah()
+{
+    return view('masyarakat.pengaduan.tambah', [
+        'app' => Application::all(),
+
+        'title' => 'Laporan Pengaduan'
+
     ]);
 }
 

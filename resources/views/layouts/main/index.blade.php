@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <title>{{ $title }}</title>
-  
+
   <meta name="description" content="{{ $app[0]->description_app }}" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="icon" type="image/x-icon" href="/medilab/assets/img/Logo_BNN.png" />
@@ -55,7 +55,7 @@
     .card-body h2 {
       color: #040404;
     }
-    
+
   </style>
 
   <div class="layout-wrapper layout-content-navbar">
@@ -67,7 +67,7 @@
             <img src="/medilab/assets/img/bnn.png" alt="Logo" width="250" height="auto">
 
             </span>
-            
+
           </a>
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -109,12 +109,18 @@
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/1.jpeg') }} @endif" alt="foto profil" class="w-px-40 h-auto rounded-circle" />
+                            <img src="@if(Storage::disk('public')->exists('profil-images')) {{ asset('storage/'. auth()->user()->image) }} @else {{ asset('assets/img/profil-images-default/man.jpeg') }} @endif" alt="foto profil" class="w-px-40 h-auto rounded-circle" />
                           </div>
                         </div>
                         <div class="flex-grow-1">
                           <span class="fw-semibold d-block">{{ auth()->user()->name }}@if(auth()->user()->is_admin)&nbsp;<i class='bx bxs-badge-check fs-6 text-primary' data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="auto" title="Administrator"></i>@endif</span>
-                          <small class="text-muted">@if(auth()->user()->is_admin){{'Admin'}}@else{{'Member'}}@endif</small>
+                          <small class="text-muted">@if(auth()->user()->is_admin === 1)
+                            {{ 'Admin' }}
+                        @elseif(auth()->user()->is_admin === 2)
+                            {{ 'Kepala BNN' }}
+                        @else
+                            {{ 'Masyarakat' }}
+                        @endif</small>
                         </div>
                       </div>
                     </button>
@@ -163,7 +169,7 @@
     </div>
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>
-  
+
   <script src="{{ asset('assets/js/script.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="{{ asset('assets/vendors/assets/vendor/libs/popper/popper.js') }}"></script>

@@ -31,9 +31,9 @@ class RegisterController extends Controller
         ]);
 
     //      // Menentukan path image default berdasarkan gender
-    $imagePath = $request->gender === 'Female' 
-    ? 'girl.jpeg' 
-    : 'man.jpeg';
+    $imagePath = $request->gender === 'Female'
+    ? 'profil-images/girl.jpeg'
+    : 'profil-images/man.jpeg';
 
 // Debugging: Cek data sebelum insert
         // dd([
