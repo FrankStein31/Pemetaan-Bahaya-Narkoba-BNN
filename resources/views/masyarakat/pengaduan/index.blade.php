@@ -32,13 +32,13 @@
                 </div>
                 <div class="justify-content-end">
                     <!-- Search -->
-                    <form action="/admin/pasien/search">
+                    {{-- <form action="/admin/pasien/search">
                         <div class="input-group">
                             <input type="search" class="form-control" name="q" id="search"
                                 style="border: 1px solid #d9dee3;" value="{{ request('q') }}"
                                 placeholder="Cari data pengaduan..." autocomplete="off" />
                         </div>
-                    </form>
+                    </form> --}}
                     <!-- /Search -->
                 </div>
             </div>
@@ -77,7 +77,7 @@
             @endif
         </td>
         <td class="text-center">
-            <button type="button"
+            {{-- <button type="button"
                     class="btn btn-icon btn-primary btn-sm buttonEditPengaduan"
                     data-bs-toggle="tooltip" data-popup="tooltip-custom"
                     data-bs-placement="auto" title="Edit Data Pengaduan"
@@ -86,20 +86,20 @@
                     data-time="{{ $pengaduan->waktu }}" data-description="{{ $pengaduan->deskripsi }}"
                     data-evidence="{{ $pengaduan->bukti }}">
                 <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
-            </button>
+            </button> --}}
             {{-- <button type="button"
                     class="btn btn-icon btn-danger btn-sm buttonDeletePengaduan"
                     data-bs-toggle="tooltip" data-popup="tooltip-custom"
                     data-bs-placement="auto" title="Delete Pengaduan"
                     data-code="{{ encrypt($pengaduan->id) }}" data-name="{{ $pengaduan->nama }}">
                 <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
-                
+
             </button> --}}
             <button type="button" class="btn btn-icon btn-danger btn-sm buttonDeletePengaduan" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="auto" title="Delete Pengaduan" data-code="{{ encrypt($pengaduan->id) }}" data-name="{{ $pengaduan->nama }}">
                 <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
               </button>
         </td>
-        
+
     </tr>
 @endforeach
 
@@ -139,7 +139,7 @@
     </div>
   </div>
 @section('script')
-    
+
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -153,9 +153,9 @@
     $("#deletePengaduan").modal("show");
 });
 
-    
+
 </script>
 
-    
+
 @endsection
 @endsection

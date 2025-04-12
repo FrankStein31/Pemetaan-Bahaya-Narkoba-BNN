@@ -8,8 +8,8 @@
     <div>Dashboard</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-    <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+<li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
+    <a class="menu-link cursor-pointer" href="{{ route('maps.index') }}">
       <i class="menu-icon tf-icons bx bx-map"></i>
       <div>Peta</div>
     </a>
@@ -75,8 +75,8 @@
     <div>Dashboard</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-    <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+<li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
+    <a class="menu-link cursor-pointer" href="{{ route('maps.index') }}">
       <i class="menu-icon tf-icons bx bx-map"></i>
       <div>Peta</div>
     </a>
@@ -106,8 +106,8 @@
       <div>Dashboard</div>
     </a>
   </li>
-  <li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-    <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+  <li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
+    <a class="menu-link cursor-pointer" href="{{ route('maps.index') }}">
       <i class="menu-icon tf-icons bx bx-map"></i>
       <div>Peta</div>
     </a>

@@ -12,6 +12,7 @@ use App\Http\Controllers\SosialisasiController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\VillageController;
 use App\Models\Desa;
 use Illuminate\Http\Request;
 
@@ -79,6 +80,10 @@ Route::get('/warga-positif', [AdminWargaController::class, 'indexpositif'])->mid
 Route::post('/admin/warga', [AdminWargaController::class, 'store'])->middleware('admin');
 Route::get('/get-desa/{kecamatan_id}', [AdminWargaController::class, 'getDesaByKecamatan']);
 Route::post('/admin/warga/edit', [AdminWargaController::class, 'editWarga'])->middleware('admin');
+Route::get('/admin/warga/search', [AdminWargaController::class, 'search'])->middleware('admin');
+Route::get('/warga-positif/search', [AdminWargaController::class, 'searchpos'])->middleware('admin');
+Route::get('/api/grafik-positif', [AdminWargaController::class, 'getDataPasienPositif']);
+
 // Route::get('/get-desa/{kecamatan_id}', [AdminWargaController::class, 'getDesaByKecamatan']);
 
 
@@ -134,7 +139,8 @@ Route::post('/admin/sosialisasi/edit', [SosialisasiController::class, 'editSosia
 Route::put('/sosialisasi/toggle/{id}', [SosialisasiController::class, 'toggleStatus'])->name('sosialisasi.toggle');
 Route::post('/admin/sosialisasi/delete', [SosialisasiController::class, 'deleteSosialisasi'])->name('sosialisasi.delete');
 
-
+// Route::get('/maps', [VillageController::class, 'index']);
+Route::get('/maps-desa', [VillageController::class, 'coba'])->name('maps.index');
 
 Route::get('/admin/messages', [MessageController::class, 'index'])->name('messages.index');
 Route::get('/tambah', [MessageController::class, 'indextambah'])->name('messages.indextambah');

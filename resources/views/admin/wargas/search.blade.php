@@ -120,10 +120,10 @@
                                         </tr>
                                     @endforeach
                                     @if($wargas->isEmpty())
-                                    <tr>
-                                    <td colspan="100" class="text-center">Data pasien tidak ditemukan!</td>
-                                    </tr>
-                                    @endif
+                <tr>
+                  <td colspan="100" class="text-center">Data pasien tidak ditemukan dengan keyword pencarian: <b>"{{request('q')}}"</b></td>
+                </tr>
+                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -170,21 +170,21 @@
         <div class="modal-dialog" role="document">
             <form action="/admin/warga/edit" method="post" class="modalAdminEditWarga" id="formEditWarga">
                 @csrf
-                <input type="hidden" name='code' value="{{ encrypt($warga->id) }}" id="codeEditWarga">
+                <input type="hidden" name="code" id="codeEditWarga">
+
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between">
-                        <h5 class="modal-title text-primary fw-bold">Edit Data Warga&nbsp;<i class='bx bx-user fs-5'
-                                style="margin-bottom: 1px;"></i></h5>
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow cancelModalEditPatient"
-                            data-bs-dismiss="modal"><i class="bx bx-x-circle text-danger fs-4" data-bs-toggle="tooltip"
-                                data-popup="tooltip-custom" data-bs-placement="auto" title="Tutup"></i></button>
+                        <h5 class="modal-title text-primary fw-bold">Edit Data Warga&nbsp;<i class='bx bx-user fs-5'></i></h5>
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow cancelModalEditPatient" data-bs-dismiss="modal">
+                            <i class="bx bx-x-circle text-danger fs-4" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="auto" title="Tutup"></i>
+                        </button>
                     </div>
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-2">
                                 <label for="nik" class="form-label required-label">NIK</label>
-                                <input type="text" id="nik" name="nik" class="form-control" required
-                                    readonly>
+                                <input type="text" id="nik" name="nik" class="form-control" required readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -202,86 +202,58 @@
                         <div class="row g-2">
                             <div class="col">
                                 <label for="jk" class="form-label required-label">Jenis Kelamin</label>
-                                <select class="form-select @error('jk') is-invalid @enderror" name="jk"
-                                    id="jk" style="cursor: pointer;" required>
+                                <select class="form-select" name="jk" id="jk" required>
                                     <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                                    <option id="laki-laki" @if (old('jk') == 'Laki-Laki') selected @endif
-                                        value="Laki-Laki">Laki-Laki</option>
-                                    <option id="perempuan" @if (old('jk') == 'Perempuan') selected @endif
-                                        value="Perempuan">Perempuan</option>
+                                    <option value="Laki-Laki">Laki-Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
-                                @error('jk')
-                                    <div class="invalid-feedback" style="margin-bottom: -3px;">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                             <div class="col">
-                                {{-- <div class="col mb-2">
-                                    <label for="status_narkoba" class="form-label required-label">Nama Lengkap</label>
-                                    <input type="text" id="status_narkoba" name="status_narkoba" class="form-control" required>
-                                </div> --}}
                                 <label for="status_narkoba" class="form-label required-label">Status Narkoba</label>
-                                <select class="form-select @error('status_narkoba') is-invalid @enderror"
-                                    name="status_narkoba" id="status_narkoba"
-                                    data-status="{{ old('status_narkoba', $warga->status_narkoba) }}" required>
+                                <select class="form-select" name="status_narkoba" id="status_narkoba" required>
                                     <option value="" disabled selected>Pilih Status</option>
-                                    <option value="Belum Diketahui" @if (old('status_narkoba', $warga->status_narkoba) == 'Belum Diketahui') selected @endif>Belum
-                                        Diketahui</option>
-                                    <option value="Negatif Narkoba" @if (old('status_narkoba', $warga->status_narkoba) == 'Negatif Narkoba') selected @endif>
-                                        Negatif Narkoba</option>
-                                    <option value="Positif Narkoba" @if (old('status_narkoba', $warga->status_narkoba) == 'Positif Narkoba') selected @endif>
-                                        Positif Narkoba</option>
+                                    <option value="Belum Diketahui">Belum Diketahui</option>
+                                    <option value="Negatif Narkoba">Negatif Narkoba</option>
+                                    <option value="Positif Narkoba">Positif Narkoba</option>
                                 </select>
-                                @error('status_narkoba')
-                                    <div class="invalid-feedback" style="margin-bottom: -3px;">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                         </div>
+
                         <div class="row g-2 mt-2">
                             <div class="col">
                                 <label for="kecamatan" class="form-label required-label">Kecamatan</label>
-                                <select class="form-select @error('kecamatan') is-invalid @enderror" name="kecamatan"
-                                    id="kecamatan" style="cursor: pointer;" required>
+                                <select class="form-select" name="kecamatan" id="kecamatan" required>
                                     <option value="" disabled selected>Pilih Kecamatan</option>
                                     @foreach ($kecamatans as $kecamatan)
-                                        <option value="{{ $kecamatan->id }}"
-                                            {{ old('kecamatan', $warga->kecamatan_id) == $kecamatan->id ? 'selected' : '' }}>
-                                            {{ $kecamatan->nama_kecamatan }}
-                                        </option>
+                                        <option value="{{ $kecamatan->id }}">{{ $kecamatan->nama_kecamatan }}</option>
                                     @endforeach
                                 </select>
-                                @error('kecamatan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="col">
                                 <label for="desa" class="form-label required-label">Desa</label>
-                                <select class="form-select @error('desa') is-invalid @enderror" name="desa"
-                                    id="desa" style="cursor: pointer;" required>
+                                <select class="form-select" name="desa" id="desa" required>
                                     <option value="" disabled selected>Pilih Desa</option>
+                                    @foreach ($desas as $desa)
+                                        <option value="{{ $desa->id }}">{{ $desa->nama_desa }}</option>
+                                    @endforeach
                                 </select>
-                                @error('desa')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
-
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger cancelModalEditWarga"
-                            data-bs-dismiss="modal"><i class='bx bx-share fs-6'
-                                style="margin-bottom: 3px;"></i>&nbsp;Batal</button>
-                        <button type="submit" class="btn btn-primary"><i class='bx bx-save fs-6'
-                                style="margin-bottom: 3px;"></i>&nbsp;Save</button>
+                        <button type="button" class="btn btn-outline-danger cancelModalEditWarga" data-bs-dismiss="modal">
+                            <i class='bx bx-share fs-6'></i>&nbsp;Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class='bx bx-save fs-6'></i>&nbsp;Save
+                        </button>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
+
 
 
     <!-- Modal tambah warga-->
@@ -425,6 +397,23 @@
         //         $("#statusNarkoba").val("Positif Narkoba");
         //     }
         // });
+        $(document).on('click', '.btnEditWarga', function () {
+    $('#codeEditWarga').val($(this).data('code'));
+    $('#nik').val($(this).data('nik'));
+    $('#nama').val($(this).data('nama'));
+    $('#alamat').val($(this).data('alamat'));
+    $('#jk').val($(this).data('jk'));
+    $('#status_narkoba').val($(this).data('status'));
+    $('#kecamatan').val($(this).data('kecamatan')).trigger('change');
+
+    // Trigger load desa berdasarkan kecamatan
+    let desaId = $(this).data('desa');
+    setTimeout(() => {
+        $('#desa').val(desaId);
+    }, 300); // delay biar option-nya sempat loaded
+
+    $('#modalEditWarga').modal('show');
+});
 
         $(document).ready(function() {
             $('#kecamatan_id').on('change', function() {

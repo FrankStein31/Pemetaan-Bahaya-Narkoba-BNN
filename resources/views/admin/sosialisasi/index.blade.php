@@ -32,13 +32,13 @@
                     </div>
                     <div class="justify-content-end">
                         <!-- Search -->
-                        <form action="/admin/pasien/search">
+                        {{-- <form action="/admin/pasien/search">
                             <div class="input-group">
                                 <input type="search" class="form-control" name="q" id="search"
                                     style="border: 1px solid #d9dee3;" value="{{ request('q') }}"
                                     placeholder="Cari data sosialisasi..." autocomplete="off" />
                             </div>
-                        </form>
+                        </form> --}}
                         <!-- /Search -->
                     </div>
                 </div>

@@ -93,6 +93,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @if($wargas->isEmpty())
+                <tr>
+                  <td colspan="100" class="text-center">Data pasien tidak ditemukan dengan keyword pencarian: <b>"{{request('q')}}"</b></td>
+                </tr>
+                @endif
                                 </tbody>
                             </table>
                         </div>

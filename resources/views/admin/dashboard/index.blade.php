@@ -139,13 +139,12 @@
   <div class="col-md-6 col-lg-7 order-2 mb-4">
     <div class="card h-100">
       <div class="card-body">
-        
-        {!! $chart->container() !!}
+        <h5 class="card-title">Grafik Pasien Positif Narkoba</h5>
+        <canvas id="grafikPasien"></canvas>
       </div>
     </div>
   </div>
 </div>
-
 
 <div class="row">
   <div class="col-md-12 col-lg-12 order-0 mb-4">
@@ -161,12 +160,42 @@
       </div>
     </div>
   </div>
-
-  
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('/api/grafik-positif')
+        .then(res => res.json())
+        .then(data => {
+            const labels = data.map(item => item.bulan);
+            const jumlah = data.map(item => item.total);
 
-<script src="{{ $chart->cdn() }}"></script>
-{{ $chart->script() }}
+            const ctx = document.getElementById('grafikPasien').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Pasien Positif Narkoba',
+                        data: jumlah,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        tension: 0.3,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+});
+</script>
 
 @endsection
