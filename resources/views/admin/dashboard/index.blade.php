@@ -9,6 +9,12 @@
     font-size: 1rem;
     font-weight: 700 !important;
   }
+  .carousel-control-next-icon {
+        filter: invert(50%) brightness(0); /* Mengubah warna menjadi hitam */
+    }
+    .carousel-control-prev-icon {
+        filter: invert(50%) brightness(0); /* Mengubah warna menjadi hitam */
+    }
 </style>
 <div class="row">
   <div class="col-6 col-lg-3 mb-4">
@@ -150,13 +156,43 @@
   <div class="col-md-12 col-lg-12 order-0 mb-4">
     <div class="card h-1000">
       <div class="card-body">
+        @if ($sosialisasi->count() > 0)
+                        <div id="sosialisasiCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($sosialisasi as $index => $item)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <h5 style="color: #ff5733; font-weight: bold; text-transform: uppercase;
+                                                    text-shadow: 2px 2px 5px rgb(0, 0, 0);
+                                                    border-bottom: 3px solid #ff5733;
+                                                    display: block; padding-bottom: 5px;
+                                                    text-align: center; font-size: 40px;">
+                                                {{ $item->judul }}
+                                            </h5>
+                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Sosialisasi"
+                                                class="img-fluid w-10">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
 
-        @if ($sosialisasi)
+                            <!-- Tombol Prev -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <!-- Tombol Next -->
+                            <button class="carousel-control-next" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    @endif
+
+        {{-- @if ($sosialisasi)
     <div class="text-center">
         <h5>{{ $sosialisasi->judul }}</h5>
         <img src="{{ asset('storage/' . $sosialisasi->gambar) }}" alt="Sosialisasi" class="img-fluid">
     </div>
-@endif
+@endif --}}
       </div>
     </div>
   </div>
