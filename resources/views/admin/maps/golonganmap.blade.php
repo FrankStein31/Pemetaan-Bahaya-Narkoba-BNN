@@ -21,9 +21,7 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // console.log(@json($desas))
-        const desas = @json($desas)
-        // const villages= {!! json_encode($desas)!!};
+        const desas = @json($desas);
 
         const desaData = desas
         .filter(desa => desa.polygon && desa.polygon !== 'null')
@@ -32,7 +30,7 @@
             properties:{
                 name: desa.nama_desa,
                 id: desa.id,
-                population: desa.population,
+                golongan_positif: desa.golongan_positif,
             },
             geometry: {
                 type: desa.type_polygon,
@@ -45,15 +43,44 @@
             features: desaData,
         };
 
-        function getColor(d) {
-            return d >= 10   ? '#FF0000' :
-                d >= 5   ? '#ffff00' :
-                            '#0B6623';
+        function getColor(golongan) {
+            if (!golongan || golongan === '' || golongan === null) {
+                return '#0B6623'; // Hijau untuk NULL
+            }
+
+            const gol = golongan.replace(/\s/g, '').split(',');
+
+            const hasI = gol.includes('GolonganI');
+            const hasII = gol.includes('GolonganII');
+            const hasIII = gol.includes('GolonganIII');
+
+            if (hasI && hasII && hasIII) {
+                return '#000000'; // Hitam
+            }
+            if (hasI && hasII) {
+                return '#0000FF'; // Biru
+            }
+            if (hasII && hasIII) {
+                return '#FFA500'; // Jingga
+            }
+            if (hasI && hasIII) {
+                return '#8B4513'; // Coklat
+            }
+            if (hasI) {
+                return '#FF0000'; // Merah
+            }
+            if (hasII) {
+                return '#FFFF00'; // Kuning
+            }
+            if (hasIII) {
+                return '#808080'; // Abu-abu
+            }
+            return '#0B6623'; // Default hijau
         }
 
         function style(feature) {
             return {
-                fillColor: getColor(feature.properties.population),
+                fillColor: getColor(feature.properties.golongan_positif),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
@@ -106,10 +133,10 @@
             return this._div;
         };
 
-        // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>Persebaran Narkoba Kabupaten Kediri</h4>' +  (props ?
-                '<b>' + props.name + '</b><br />' + props.population + ' Orang Positif Narkoba'
+            this._div.innerHTML = '<h4>Golongan Narkoba per Desa</h4>' +  (props ?
+                '<b>' + props.name + '</b><br />' +
+                (props.golongan_positif ? props.golongan_positif : 'Tidak Ada Data')
                 : 'Arahkan kursor ke suatu Desa');
         };
 
@@ -118,25 +145,21 @@
         var legend = L.control({position: 'bottomright'});
 
         legend.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = [0, 5, 10],
-                labels = [];
-
-            // loop through our density intervals and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-        var from = grades[i];
-        var to = grades[i + 1];
-
-        div.innerHTML +=
-            '<i style="background:' + getColor(from) + '"></i> ' +
-            (to ? from + '&ndash;' + (to - 1) + '<br>' : from + '+');
-    }
-
+            var div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML +=
+                '<i style="background:#FF0000"></i> Golongan I<br>' +
+                '<i style="background:#FFFF00"></i> Golongan II<br>' +
+                '<i style="background:#808080"></i> Golongan III<br>' +
+                '<i style="background:#0000FF"></i> Golongan I & II<br>' +
+                '<i style="background:#FFA500"></i> Golongan II & III<br>' +
+                '<i style="background:#8B4513"></i> Golongan I & III<br>' +
+                '<i style="background:#FFC0CB"></i> Golongan I, II & III<br>' +
+                '<i style="background:#0B6623"></i> Tidak Ada Data<br>';
             return div;
         };
 
         legend.addTo(map);
 
     </script>
+
 @endsection

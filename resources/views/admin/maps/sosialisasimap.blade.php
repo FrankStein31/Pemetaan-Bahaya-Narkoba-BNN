@@ -32,7 +32,7 @@
             properties:{
                 name: desa.nama_desa,
                 id: desa.id,
-                population: desa.population,
+                sosialisasi: desa.sosialisasi,
             },
             geometry: {
                 type: desa.type_polygon,
@@ -46,14 +46,13 @@
         };
 
         function getColor(d) {
-            return d >= 10   ? '#FF0000' :
-                d >= 5   ? '#ffff00' :
-                            '#0B6623';
+            return d >= 1   ? '#0000FF' :
+                            '#FF0000';
         }
 
         function style(feature) {
             return {
-                fillColor: getColor(feature.properties.population),
+                fillColor: getColor(feature.properties.sosialisasi),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
@@ -108,8 +107,8 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>Persebaran Narkoba Kabupaten Kediri</h4>' +  (props ?
-                '<b>' + props.name + '</b><br />' + props.population + ' Orang Positif Narkoba'
+            this._div.innerHTML = '<h4>Soialisasi Desa </h4>' +  (props ?
+                '<b>' + props.name + '</b><br />' + props.sosialisasi + ' Sosialisasi'
                 : 'Arahkan kursor ke suatu Desa');
         };
 
@@ -120,7 +119,7 @@
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = [0, 5, 10],
+                grades = [0, 1],
                 labels = [];
 
             // loop through our density intervals and generate a label with a colored square for each interval

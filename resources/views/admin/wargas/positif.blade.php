@@ -51,10 +51,11 @@
                                         <th class="text-white">NIK</th>
                                         <th class="text-white">Nama</th>
                                         <th class="text-white">Alamat</th>
-                                        <th class="text-white">Jenis Kelamin</th>
                                         <th class="text-white">Kecamatan</th>
                                         <th class="text-white">Desa</th>
                                         <th class="text-white">Status</th>
+                                        <th class="text-white">Golongan</th>
+                                        <th class="text-white">Jenis Golongan</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -64,13 +65,6 @@
                                             <td>{{ $warga->nik }}</td>
                                             <td>{{ $warga->nama }}</td>
                                             <td>{{ $warga->alamat }}</td>
-                                            <td>
-                                                @if ($warga->jk == 'Laki-Laki')
-                                                <span class="badge bg-label-primary fw-bold">Laki-Laki</span>@else<span
-                                                        class="badge fw-bold"
-                                                        style="color: #ff6384 !important; background-color: #ffe5eb !important;">Perempuan</span>
-                                                @endif
-                                            </td>
                                             <td>{{ optional($warga->kecamatan)->nama_kecamatan }}</td>
                                             <td>{{ optional($warga->desa)->nama_desa }}</td>
                                             <td>
@@ -91,6 +85,8 @@
                                                     </span>
                                                 @endif
                                             </td>
+                                            <td>{{ $warga->golongan }}</td>
+                                            <td>{{ $warga->jenis_golongan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

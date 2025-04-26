@@ -32,7 +32,6 @@ class AdminDashboardController extends Controller
             'totalwarganegatif' => Warga::where('status_narkoba', 'Negatif Narkoba')->count(), // Hitung warga dengan status negatif narkoba
             'totaladuan' => Patient::where('queue_number_id')->count(),
             'numberQueueNow' => Patient::with(['queueNumber'])->orderby('queue_number_id', 'asc')->whereNotNull('queue_number_id')->first(),
-            // 'sosialisasi' => Sosialisasi::where('status', 'aktif')->latest()->first(),
             'sosialisasi' => Sosialisasi::where('status', 'aktif')->latest()->get(),
             'totalpengaduan' => Pengaduan::count(),
             'chart' => $chart->build()

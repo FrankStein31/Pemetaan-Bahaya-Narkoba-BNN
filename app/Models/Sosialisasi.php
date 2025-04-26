@@ -13,7 +13,19 @@ class Sosialisasi extends Model {
     protected $fillable = [
         'judul',
         'deskripsi',
+        'desa_id',
+        'kecamatan_id',
         'gambar',
         'status',
     ];
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id');
+    }
+
+    // Relasi ke Desa (Setiap Warga memiliki satu Desa)
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class, 'desa_id', 'id');
+    }
 }

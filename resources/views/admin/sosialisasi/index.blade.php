@@ -49,8 +49,10 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th class="text-white">No</th>
-                                        <th class="text-white">Judul</th>
-                                        <th class="text-white">Deskripsi</th>
+                                        <th class="text-white" >Judul</th>
+                                        <th class="text-white" >Deskripsi</th>
+                                        <th class="text-white">Kecamatan</th>
+                                        <th class="text-white">Desa</th>
                                         <th class="text-white">Gambar</th>
                                         <th class="text-white">Status</th>
                                         <th class="text-white text-center">Aksi</th>
@@ -62,6 +64,9 @@
                                             <td>{{ $sosialisasi->firstItem() + $index }}</td>
                                             <td>{{ $item->judul }}</td>
                                             <td>{{ $item->deskripsi ?? '-' }}</td>
+
+                                            <td>{{ optional($item->kecamatan)->nama_kecamatan }}</td>
+                                            <td>{{ optional($item->desa)->nama_desa }}</td>
                                             <td>
                                                 <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Sosialisasi"
                                                     width="100">
@@ -93,6 +98,9 @@
                                                         data-code="{{ encrypt($item->id) }}"
                                                         data-judul="{{ $item->judul }}"
                                                         data-deskripsi="{{ $item->deskripsi }}"
+
+                                                    data-kecamatan="{{ $item->kecamatan_id }}"
+                                                    data-desa="{{ $item->desa_id }}"
                                                         data-gambar="{{ asset('storage/' . $item->gambar) }}"
                                                         data-time="{{ $item->waktu }}"
                                                         data-description="{{ $item->deskripsi }}">
@@ -189,6 +197,34 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row g-2 mt-2">
+                            <div class="col">
+                                <label for="kecamatan" class="form-label required-label">Kecamatan</label>
+                                <select class="form-select @error('kecamatan') is-invalid @enderror" name="kecamatan"
+                                    id="kecamatan" style="cursor: pointer;" required>
+                                    <option value="" disabled selected>Pilih Kecamatan</option>
+                                    @foreach ($kecamatans as $kecamatan)
+                                        <option value="{{ $kecamatan->id }}"
+                                            {{ old('kecamatan', $item->kecamatan_id) == $kecamatan->id ? 'selected' : '' }}>
+                                            {{ $kecamatan->nama_kecamatan }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('kecamatan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <label for="desa" class="form-label required-label">Desa</label>
+                                <select class="form-select @error('desa') is-invalid @enderror" name="desa"
+                                    id="desa" style="cursor: pointer;" required>
+                                    <option value="" disabled selected>Pilih Desa</option>
+                                </select>
+                                @error('desa')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col mb-2 mb-lg-3">
 
@@ -258,6 +294,32 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row g-2">
+                            <div class="col">
+                                <label for="kecamatan_id" class="form-label required-label">Kecamatan</label>
+                                <select class="form-select @error('kecamatan_id') is-invalid @enderror"
+                                    name="kecamatan_id" id="kecamatan_id" style="cursor: pointer;" required>
+                                    <option value="" disabled selected>Pilih Kecamatan</option>
+                                    @foreach ($kecamatans as $kecamatan)
+                                        <option value="{{ $kecamatan->id }}">{{ $kecamatan->nama_kecamatan }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kecamatan_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+
+                                <label for="desa_id" class="form-label required-label">Desa</label>
+                                <select class="form-select @error('desa_id') is-invalid @enderror" name="desa_id"
+                                    id="desa_id" style="cursor: pointer;" required>
+                                    <option value="" disabled selected>Pilih Desa</option>
+                                </select>
+                                @error('desa_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col mb-2 mb-lg-3">
                                 <label for="gambar" class="form-label required-label">Upload Gambar</label>
@@ -268,7 +330,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col mb-2 mb-lg-3">
                                 <label for="status" class="form-label required-label">Status</label>
                                 <select class="form-select @error('status') is-invalid @enderror" name="status"
@@ -282,7 +344,7 @@
                                     <div class="invalid-feedback" style="margin-bottom: -3px;">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer">
@@ -302,16 +364,83 @@
     @if ($errors->any())
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                var modal = new bootstrap.Modal(document.getElementById('formModalAdminAddWarga'));
+                var modal = new bootstrap.Modal(document.getElementById('formModalSosialisasi'));
                 modal.show();
             });
         </script>
     @endif
 @section('script')
+<script>
+    $(document).ready(function() {
+        // Cek apakah ada error validasi dan flag editing_warga
+        @if ($errors->any() && session('editing_sosialisasi'))
+            $('#modalAdminEditSosialisasi').modal('show');
+        @endif
+    });
+</script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('assets/js/sosialisasi.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            $('#kecamatan_id').on('change', function() {
+                var kecamatan_id = $(this).val(); // Ambil ID kecamatan yang dipilih
+
+                if (kecamatan_id) {
+                    $.ajax({
+                        url: '/get-desa/' + kecamatan_id, // Panggil API Laravel
+                        type: 'GET',
+                        success: function(data) {
+                            var desaDropdown = $('#desa_id');
+                            desaDropdown.empty(); // Kosongkan dropdown desa
+                            desaDropdown.append(
+                                '<option value="" disabled selected>Pilih Desa</option>');
+
+                            $.each(data, function(key, desa) {
+                                desaDropdown.append('<option value="' + desa.id + '">' +
+                                    desa.nama_desa + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        $(document).ready(function() {
+            var oldDesa = "{{ old('desa', $warga->desa_id ?? '') }}"; // Ambil desa lama
+            var selectedKecamatan = $('#kecamatan').val(); // Ambil kecamatan yang terpilih saat edit
+
+            function loadDesa(kecamatan_id, selectedDesa = null) {
+                if (kecamatan_id) {
+                    $.ajax({
+                        url: '/get-desa/' + kecamatan_id, // API Laravel untuk mengambil desa
+                        type: 'GET',
+                        success: function(data) {
+                            var desaDropdown = $('#desa');
+                            desaDropdown.empty(); // Hapus opsi lama
+                            desaDropdown.append('<option value="" disabled>Pilih Desa</option>');
+
+                            $.each(data, function(key, desa) {
+                                let selected = desa.id == selectedDesa ? "selected" : "";
+                                desaDropdown.append('<option value="' + desa.id + '" ' +
+                                    selected + '>' +
+                                    desa.nama_desa + '</option>');
+                            });
+                        }
+                    });
+                }
+            }
+
+            // Jika ada kecamatan yang sudah terpilih (mode edit), maka load desa otomatis
+            if (selectedKecamatan) {
+                loadDesa(selectedKecamatan, oldDesa);
+            }
+
+            // Ketika kecamatan diubah, desa yang sesuai akan muncul
+            $('#kecamatan').on('change', function() {
+                var kecamatan_id = $(this).val();
+                loadDesa(kecamatan_id);
+            });
+        });
         document.getElementById('input_gambar').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {

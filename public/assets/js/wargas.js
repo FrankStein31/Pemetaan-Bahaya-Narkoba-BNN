@@ -63,6 +63,8 @@ $(".buttonEditWarga").on("click", function () {
     const desa = $(this).data("desa"); // ID Desa yang akan dipilih
     const kecamatan = $(this).data("kecamatan"); // ID Kecamatan yang akan dipilih
     const status_narkoba = $(this).data("status_narkoba");
+    const golongan = $(this).data("golongan");
+    const jenis_golongan = $(this).data("jenis_golongan");
 
     // Set nilai pada form
     $("#codeEditWarga").val(code);
@@ -79,6 +81,15 @@ $(".buttonEditWarga").on("click", function () {
         loadDesa(kecamatan, desa);
     }, 20); // Delay 500ms agar desa bisa termuat setelah kecamatan berubah
 
+// Setelah mengatur nilai golongan
+$("#golongan").val(golongan).trigger("change");
+
+// Tunggu golongan terpilih, baru set jenis_golongan
+setTimeout(() => {
+    $("#jenis_golongan").val(jenis_golongan);
+}, 50);
+
+
     // Pilih Jenis Kelamin
     if (jk === "Laki-Laki") {
         $("#jk option[value='Laki-Laki']").prop("selected", true);
@@ -92,7 +103,7 @@ $(".buttonEditWarga").on("click", function () {
     } else {
         $("#status_narkoba option[value='Positif Narkoba']").prop("selected", true);
     }
-    
+
 
     // Tampilkan modal edit
     $("#modalEditWarga").modal("show");
@@ -165,7 +176,7 @@ function loadDesa(kecamatan_id, selectedDesa = null) {
 //     // Set Jenis Kelamin
 //     $("#jk").val(jk).change();
 //     $("#status").val(status_narkoba).change();
-    
+
 
 //     $("#formModalAdminEditWarga").modal("show");
 // });

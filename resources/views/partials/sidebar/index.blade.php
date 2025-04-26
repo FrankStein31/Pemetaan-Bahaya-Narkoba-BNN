@@ -8,12 +8,36 @@
     <div>Dashboard</div>
   </a>
 </li>
-<li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
+<li class="menu-item {{ Request::is('maps*') ? 'active open' : '' }}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <i class="menu-icon tf-icons bx bx-map"></i>
+      <div>Peta</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
+        <a href="{{ route('maps.index') }}" class="menu-link">
+          <div>Kerawanan</div>
+        </a>
+      </li>
+      <li class="menu-item {{ Request::routeIs('maps-sosialisasi.index') ? 'active' : '' }}">
+        <a href="{{ route('maps-sosialisasi.index') }}" class="menu-link">
+          <div>Sosialisasi</div>
+        </a>
+      </li>
+      <li class="menu-item {{ Request::routeIs('maps-jenis.index') ? 'active' : '' }}">
+        <a href="{{ route('maps-jenis.index') }}" class="menu-link">
+          <div>Jenis Narkoba</div>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+{{-- <li class="menu-item {{ Request::routeIs('maps.index') ? 'active' : '' }}">
     <a class="menu-link cursor-pointer" href="{{ route('maps.index') }}">
       <i class="menu-icon tf-icons bx bx-map"></i>
       <div>Peta</div>
     </a>
-  </li>
+  </li> --}}
   <li class="menu-header">Data masyarakat</li>
 <li class="menu-item {{ Request::is('admin/pasien*') ? 'active' : '' }}">
   <a class="menu-link cursor-pointer" onclick="window.location.href='/admin/pasien'">

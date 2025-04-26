@@ -110,35 +110,35 @@
                         </div>
                     @endif --}}
                     @if ($sosialisasi->count() > 0)
-    <div id="sosialisasiCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            @foreach ($sosialisasi as $index => $item)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <h5 style="color: #ff5733; font-weight: bold; text-transform: uppercase;
-                                   text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-                                   border-bottom: 3px solid #ff5733;
-                                   display: block; padding-bottom: 5px;
-                                   text-align: center; font-size: 40px;">
-                            {{ $item->judul }}
-                        </h5>
-                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Sosialisasi"
-                            class="img-fluid w-50">
-                    </div>
-                </div>
-            @endforeach
-        </div>
+                        <div id="sosialisasiCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($sosialisasi as $index => $item)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <h5 style="color: #ff5733; font-weight: bold; text-transform: uppercase;
+                                                    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+                                                    border-bottom: 3px solid #ff5733;
+                                                    display: block; padding-bottom: 5px;
+                                                    text-align: center; font-size: 40px;">
+                                                {{ $item->judul }}
+                                            </h5>
+                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Sosialisasi"
+                                                class="img-fluid w-50">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
 
-        <!-- Tombol Prev -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-        <!-- Tombol Next -->
-        <button class="carousel-control-next" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
-    </div>
-@endif
+                            <!-- Tombol Prev -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <!-- Tombol Next -->
+                            <button class="carousel-control-next" type="button" data-bs-target="#sosialisasiCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    @endif
 
                 </div>
             </div>

@@ -239,8 +239,30 @@
                                     </div>
                                 @enderror
                             </div>
+
                         </div>
-                        <div class="row g-2 mt-2">
+                        <div class="row g-2 mt-3">
+                            {{-- Form Tambahan untuk Positif Narkoba --}}
+                            <div id="form-positif-narkoba" class="row g-2 mt-2" style="display: none;">
+                                <div class="col">
+                                    <label for="golongan" class="form-label required-label">Golongan</label>
+                                    <select class="form-select" name="golongan" id="golongan" required>
+                                        <option value="" disabled selected>Pilih Golongan</option>
+                                        <option value="Golongan I">Golongan I</option>
+                                        <option value="Golongan II">Golongan II</option>
+                                        <option value="Golongan III">Golongan III</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="jenis_golongan" class="form-label required-label">Jenis Golongan</label>
+                                    <select class="form-select" name="jenis_golongan" id="jenis_golongan" required>
+                                        <option value="" disabled selected>Pilih Jenis</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row g-2 mt-3">
                             <div class="col">
                                 <label for="kecamatan" class="form-label required-label">Kecamatan</label>
                                 <select class="form-select @error('kecamatan') is-invalid @enderror" name="kecamatan"
@@ -412,6 +434,56 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+$(document).ready(function () {
+    const jenisGolonganOptions = {
+        "Golongan I": [
+            "Opium Mentah", "Tanaman Koka", "Daun Koka", "Kokain Mentah",
+            "Heroina", "Metamfetamina", "Tanaman Ganja"
+        ],
+        "Golongan II": [
+            "Ekgonina", "Morfin Metobromida", "Morfina"
+        ],
+        "Golongan III": [
+            "Etilmorfina", "Kodeina", "Polkodina", "Propiram"
+        ]
+    };
+
+    $('#golongan').on('change', function () {
+        const selectedGolongan = $(this).val();
+        const jenisDropdown = $('#jenis_golongan');
+
+        jenisDropdown.empty();
+        jenisDropdown.append('<option value="" disabled selected>Pilih Jenis</option>');
+
+        if (jenisGolonganOptions[selectedGolongan]) {
+            jenisGolonganOptions[selectedGolongan].forEach(function (item) {
+                jenisDropdown.append('<option value="' + item + '">' + item + '</option>');
+            });
+        }
+    });
+});
+
+$(document).ready(function () {
+    function toggleFormTambahan() {
+    if ($('#status_narkoba').val() === 'Positif Narkoba') {
+        $('#form-positif-narkoba').show();
+        $('#golongan, #jenis_golongan').prop('disabled', false);
+    } else {
+        $('#form-positif-narkoba').hide();
+        $('#golongan, #jenis_golongan').prop('disabled', true);
+    }
+}
+
+
+    // Saat halaman dimuat
+    toggleFormTambahan();
+
+    // Saat dropdown berubah
+    $('#status_narkoba').on('change', toggleFormTambahan);
+});
+$('#form-positif-narkoba').fadeIn();  // muncul perlahan
+$('#form-positif-narkoba').fadeOut(); // menghilang perlahan
+
         //     $(document).ready(function () {
         //     // Ambil nilai status dari atribut data-status pada elemen select
         //     let status = $("#statusNarkoba").attr("data-status");

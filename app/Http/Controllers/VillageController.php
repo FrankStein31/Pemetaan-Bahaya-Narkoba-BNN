@@ -25,4 +25,23 @@ class VillageController extends Controller
         ]);
 
     }
+
+    public function sosialisasi()
+    {
+        return view('admin.maps.sosialisasimap', [
+            'app' => Application::all(),
+            'title' => 'Peta Desa',
+            'desas' => Desa::all(),
+        ]);
+
+    }
+    public function jenis()
+    {
+        return view('admin.maps.golonganmap', [
+            'app' => Application::all(),
+            'title' => 'Peta Desa',
+            'desas' => Desa::all(),
+        ]);
+
+    }
 }

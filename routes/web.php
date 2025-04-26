@@ -141,6 +141,8 @@ Route::post('/admin/sosialisasi/delete', [SosialisasiController::class, 'deleteS
 
 // Route::get('/maps', [VillageController::class, 'index']);
 Route::get('/maps-desa', [VillageController::class, 'coba'])->name('maps.index');
+Route::get('/maps-desa-sosialisasi', [VillageController::class, 'sosialisasi'])->name('maps-sosialisasi.index');
+Route::get('/maps-desa-jenis-narkoba', [VillageController::class, 'jenis'])->name('maps-jenis.index');
 
 Route::get('/admin/messages', [MessageController::class, 'index'])->name('messages.index');
 Route::get('/tambah', [MessageController::class, 'indextambah'])->name('messages.indextambah');

@@ -116,11 +116,62 @@ public function indexpositif(){
         // return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil dihapus!');
     }
     public function deleteWarga(Request $request)
-    {
-        $idWarga = decrypt($request->codeWarga);
-        Warga::destroy($idWarga);
-        return back()->with('deleteWarga', 'Warga berhasil dihapus!');
+{
+    $idWarga = decrypt($request->codeWarga);
+
+    // Ambil data warga sebelum dihapus
+    $warga = Warga::findOrFail($idWarga);
+    $statusNarkoba = $warga->status_narkoba;
+    $golongan = $warga->golongan;
+    $desaId = $warga->desa_id;
+    $kecamatanId = $warga->kecamatan_id;
+
+    // Hapus data warga
+    $warga->delete();
+
+    // Kurangi population jika status narkoba positif
+    if ($statusNarkoba === 'Positif Narkoba') {
+        DB::table('desa')
+            ->where('id', $desaId)
+            ->where('kecamatan_id', $kecamatanId)
+            ->decrement('population');
     }
+
+    // Update golongan_positif di tabel desa
+    if ($statusNarkoba === 'Positif Narkoba' && $golongan) {
+        // Ambil semua golongan terbaru di desa itu
+        $golonganDesa = Warga::where('desa_id', $desaId)
+            ->where('status_narkoba', 'Positif Narkoba')
+            ->whereNotNull('golongan')
+            ->pluck('golongan')
+            ->unique()
+            ->toArray();
+
+        // Update desa sesuai golongan yang tersisa
+        if (empty($golonganDesa)) {
+            // Kalau tidak ada lagi golongan positif
+            DB::table('desa')
+                ->where('id', $desaId)
+                ->where('kecamatan_id', $kecamatanId)
+                ->update([
+                    'golongan_positif' => null
+                ]);
+        } else {
+            // Kalau masih ada golongan, gabungkan jadi string
+            $golonganString = implode(',', $golonganDesa);
+            DB::table('desa')
+                ->where('id', $desaId)
+                ->where('kecamatan_id', $kecamatanId)
+                ->update([
+                    'golongan_positif' => $golonganString
+                ]);
+        }
+    }
+
+    return back()->with('deleteWarga', 'Warga berhasil dihapus!');
+}
+
+
 
     public function editWarga(Request $request)
 {
@@ -132,36 +183,74 @@ public function indexpositif(){
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
             'jk' => 'required|in:Laki-Laki,Perempuan',
-            'desa' => 'required|string',       // Sesuaikan dengan nama di form
-            'kecamatan' => 'required|string',  // Sesuaikan dengan nama di form
+            'desa' => 'required|string',
+            'kecamatan' => 'required|string',
             'status_narkoba' => 'required|string',
+            'golongan' => 'nullable|required_if:status_narkoba,Positif Narkoba|string',
+            'jenis_golongan' => 'nullable|required_if:status_narkoba,Positif Narkoba|string',
         ]);
 
-        // Konversi nama field agar sesuai dengan database jika diperlukan
+        // Ambil data lama warga
+        $wargaLama = Warga::findOrFail($idWarga);
+        $statusLama = $wargaLama->status_narkoba;
+        $desaIdLama = $wargaLama->desa_id;
+        $kecamatanIdLama = $wargaLama->kecamatan_id;
+
+        // Data baru
+        $statusBaru = $validatedData['status_narkoba'];
+        $desaIdBaru = $validatedData['desa'];
+        $kecamatanIdBaru = $validatedData['kecamatan'];
+
+        // Update data warga
         $dataToUpdate = [
             'nik' => $validatedData['nik'],
             'nama' => $validatedData['nama'],
             'alamat' => $validatedData['alamat'],
             'jk' => $validatedData['jk'],
-            'desa_id' => $validatedData['desa'],         // Konversi ke nama kolom di database
-            'kecamatan_id' => $validatedData['kecamatan'], // Konversi ke nama kolom di database
-            'status_narkoba' => $validatedData['status_narkoba'],
+            'desa_id' => $desaIdBaru,
+            'kecamatan_id' => $kecamatanIdBaru,
+            'status_narkoba' => $statusBaru,
         ];
 
-        Warga::where('id', $idWarga)->update($dataToUpdate);
-        // ✅ Update kolom population di tabel desa berdasarkan jumlah warga yang Positif Narkoba
-        DB::statement("
-            UPDATE desa d
-            JOIN (
-                SELECT desa_id, kecamatan_id, COUNT(*) AS jumlah_positif
-                FROM wargas
-                WHERE status_narkoba = 'Positif Narkoba'
-                GROUP BY desa_id, kecamatan_id
-            ) w ON d.id = w.desa_id AND d.kecamatan_id = w.kecamatan_id
-            SET d.population = w.jumlah_positif
-        ");
+        if ($statusBaru === 'Positif Narkoba') {
+            $dataToUpdate['golongan'] = $validatedData['golongan'];
+            $dataToUpdate['jenis_golongan'] = $validatedData['jenis_golongan'];
+        } else {
+            $dataToUpdate['golongan'] = null;
+            $dataToUpdate['jenis_golongan'] = null;
+        }
 
-        // ✅ Set desa yang tidak punya warga positif narkoba jadi 0
+        // Lakukan update data warga
+        Warga::where('id', $idWarga)->update($dataToUpdate);
+
+        // Cek perubahan status dan update population
+        if ($statusLama === 'Positif Narkoba' && $statusBaru !== 'Positif Narkoba') {
+            // Kurangi population
+            DB::table('desa')
+                ->where('id', $desaIdLama)
+                ->where('kecamatan_id', $kecamatanIdLama)
+                ->decrement('population');
+        } elseif ($statusLama !== 'Positif Narkoba' && $statusBaru === 'Positif Narkoba') {
+            // Tambah population
+            DB::table('desa')
+                ->where('id', $desaIdBaru)
+                ->where('kecamatan_id', $kecamatanIdBaru)
+                ->increment('population');
+        }
+        // >>> Tambahkan Update jumlah_positif_narkoba <<<
+        // >>> Tambahkan Update jumlah_positif_narkoba <<<
+// >>> Update golongan_narkoba per desa <<<
+DB::statement("
+    UPDATE desa d
+    LEFT JOIN (
+        SELECT w.desa_id, GROUP_CONCAT(DISTINCT w.golongan ORDER BY w.golongan ASC SEPARATOR ', ') AS golongan_positif
+        FROM wargas w
+        WHERE w.status_narkoba = 'Positif Narkoba'
+          AND w.golongan IN ('Golongan I', 'Golongan II', 'Golongan III')
+        GROUP BY w.desa_id
+    ) w ON w.desa_id = d.id
+    SET d.golongan_positif = w.golongan_positif
+");
 
 
         return back()->with('editWargaSuccess', 'Data warga berhasil diupdate!');
@@ -169,9 +258,10 @@ public function indexpositif(){
     } catch (ValidationException $e) {
         return back()->withErrors($e->validator)
                      ->withInput()
-                     ->with('editing_warga', true); // Tambahkan flag ini
+                     ->with('editing_warga', true);
     }
 }
+
     public function getDesaByKecamatan($kecamatan_id)
 {
     $desas = Desa::where('kecamatan_id', $kecamatan_id)->get();
