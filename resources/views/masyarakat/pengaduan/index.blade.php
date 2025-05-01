@@ -24,12 +24,12 @@
     <div class="col-md-12 col-lg-12 order-2 mb-4">
         <div class="card h-100">
             <div class="card-header d-flex align-items-center justify-content-between" style="margin-bottom: -0.7rem;">
-                <div class="justify-content-start">
+                <!-- <div class="justify-content-start">
                     <button type="button" class="btn btn-xs btn-dark fw-bold p-2 buttonAddPatientQueue"
                         data-bs-toggle="modal" data-bs-target="#formModalAdminAddWarga">
                         <i class='bx bx-receipt fs-6'></i>&nbsp;TAMBAH DATA
                     </button>
-                </div>
+                </div> -->
                 <div class="justify-content-end">
                     <!-- Search -->
                     {{-- <form action="/admin/pasien/search">
