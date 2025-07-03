@@ -4,16 +4,7 @@
         <div class="col-md-12 col-lg-12 order-0 mb-4">
             <div class="card h-1000">
                 <div class="card-body">
-                    <div class="d-flex justify-content-end">
-                        <form method="GET" id="filterForm">
-                            <select id="filterTahun" name="tahun" class="form-select mb-4" style="width: 200px;">
-                                @foreach ($tahunList as $tahun)
-                                    <option value="{{ $tahun }}" {{ $tahun == $tahunTerpilih ? 'selected' : '' }}>
-                                        {{ $tahun }}</option>
-                                @endforeach
-                            </select>
-                        </form>
-                    </div>
+
                     <div id="map"></div>
                     <!-- Make sure you put this AFTER Leaflet's CSS -->
                     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -23,9 +14,6 @@
             </div>
         </div>
         <script>
-            document.getElementById('filterTahun').addEventListener('change', function() {
-                document.getElementById('filterForm').submit();
-            });
             var map = L.map('map').setView([-7.8015312, 111.9448052], 11);
 
             var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,6 +33,9 @@
                         name: desa.nama_desa,
                         id: desa.id,
                         population: desa.population,
+                        sosialisasi: desa.sosialisasi,
+                        golongan_positif: desa.golongan_positif,
+                        kecamatan: desa.kecamatan ? desa.kecamatan.nama_kecamatan : 'Tidak diketahui',
                     },
                     geometry: {
                         type: desa.type_polygon,
@@ -64,6 +55,31 @@
                     '#0B6623'; // hijau
             }
 
+            function onEachFeature(feature, layer) {
+                const props = feature.properties;
+
+                const popupContent = `
+        <strong>${props.name}</strong><br>
+        Kecamatan: ${props.kecamatan}<br>
+        Jumlah Sosialisasi: ${props.sosialisasi}<br>
+        Jumlah Orang Positif: ${props.population}<br>
+        Jumlah Golongan Positif: ${props.golongan_positif}
+    `;
+
+                layer.bindPopup(popupContent);
+
+                layer.on({
+                    mouseover: function(e) {
+                        highlightFeature(e);
+                        this.openPopup();
+                    },
+                    mouseout: function(e) {
+                        resetHighlight(e);
+                        this.closePopup();
+                    },
+                    click: zoomToFeature
+                });
+            }
 
             function style(feature) {
                 return {
@@ -87,24 +103,16 @@
                 });
 
                 layer.bringToFront();
-                info.update(layer.feature.properties);
+                // info.update(layer.feature.properties);
             }
 
             function resetHighlight(e) {
                 geojson.resetStyle(e.target);
-                info.update();
+                // info.update();
             }
 
             function zoomToFeature(e) {
                 map.fitBounds(e.target.getBounds());
-            }
-
-            function onEachFeature(feature, layer) {
-                layer.on({
-                    mouseover: highlightFeature,
-                    mouseout: resetHighlight,
-                    click: zoomToFeature
-                });
             }
 
             geojson = L.geoJson(geoJson, {
@@ -112,22 +120,7 @@
                 onEachFeature: onEachFeature
             }).addTo(map);
 
-            var info = L.control();
 
-            info.onAdd = function(map) {
-                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-                this.update();
-                return this._div;
-            };
-
-            // method that we will use to update the control based on feature properties passed
-            info.update = function(props) {
-                this._div.innerHTML = '<h4>Persebaran Narkoba Kabupaten Kediri</h4>' + (props ?
-                    '<b>' + props.name + '</b><br />' + props.population + ' Orang Positif Narkoba' :
-                    'Arahkan kursor ke suatu Desa');
-            };
-
-            info.addTo(map);
 
             var legend = L.control({
                 position: 'bottomright'
@@ -139,7 +132,6 @@
                     grades = [0, 1, 5, 11],
                     labels = [];
 
-                // loop through our density intervals and generate a label with a colored square for each interval
                 for (var i = 0; i < grades.length; i++) {
                     var from = grades[i];
                     var to = grades[i + 1];

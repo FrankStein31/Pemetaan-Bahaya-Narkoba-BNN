@@ -16,12 +16,17 @@ class VillageController extends Controller
         ]);
 
     }
-    public function coba()
+    public function coba(Request $request)
     {
+        $tahunTerpilih = $request->get('tahun', date('Y'));
+        $tahunSekarang = date('Y');
+        $tahunList = range(2020, $tahunSekarang);
         return view('admin.maps.desamap', [
             'app' => Application::all(),
             'title' => 'Peta Desa',
-            'desas' => Desa::all(),
+            'desas' => Desa::whereYear('updated_at', $tahunTerpilih)->get(),
+            'tahunList' => array_reverse($tahunList),
+            'tahunTerpilih' => $tahunTerpilih,
         ]);
 
     }
@@ -31,7 +36,7 @@ class VillageController extends Controller
         return view('admin.maps.sosialisasimap', [
             'app' => Application::all(),
             'title' => 'Peta Desa',
-            'desas' => Desa::all(),
+            'desas' => Desa::with('sosialisasis')->get(),
         ]);
 
     }
@@ -40,7 +45,16 @@ class VillageController extends Controller
         return view('admin.maps.golonganmap', [
             'app' => Application::all(),
             'title' => 'Peta Desa',
-            'desas' => Desa::all(),
+            'desas' => Desa::with('kecamatan')->get(),
+        ]);
+
+    }
+    public function all()
+    {
+        return view('admin.maps.allmap', [
+            'app' => Application::all(),
+            'title' => 'Peta Desa',
+            'desas' => Desa::with('kecamatan')->get(),
         ]);
 
     }
